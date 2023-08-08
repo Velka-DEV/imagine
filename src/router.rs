@@ -1,7 +1,13 @@
 use salvo::prelude::*;
 use crate::handlers::file;
+use salvo::routing::filter::PathFilter;
+use regex::Regex;
 
 pub fn create_router() -> Router {
+
+    let guid = Regex::new("[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}").unwrap();
+    PathFilter::register_wisp_regex("guid", guid);
+
     Router::new()
     .push(
         create_file_router()
@@ -15,7 +21,11 @@ pub fn create_router() -> Router {
 
 fn create_file_router() -> Router {
     Router::with_path("file")
-        .get(file::serve_file)
+        .post(file::upload_file)
+        .push(
+            Router::with_path("<id:guid>")
+                .get(file::serve_file)
+        )
 }
 
 fn create_image_router() -> Router {
