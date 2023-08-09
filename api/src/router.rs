@@ -1,6 +1,6 @@
 use salvo::prelude::*;
 use crate::handlers::file;
-use salvo::routing::filter::PathFilter;
+use salvo::routing::filters::PathFilter;
 use regex::Regex;
 
 pub fn create_router() -> Router {

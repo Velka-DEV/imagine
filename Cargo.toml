@@ -4,13 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[workspace]
+members = [".", "api", "service", "entity", "migration"]
 
 [dependencies]
-salvo = "0.49"
-regex = "1.9"
-tokio = { version = "1", features = ["macros"] }
-tracing = "0.1"
-tracing-subscriber = "0.3"
-uuid = { version = "1.4.1", features = ["v4", "fast-rng"] }
-serde = "1.0.183"
-sea-orm = { version = "0.12", features = [ "sqlx-sqlite", "runtime-tokio-rustls", "macros", "with-uuid" ] }
+imagine-api = { path = "api" }

@@ -1,0 +1,25 @@
+[package]
+name = "imagine-service"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+name = "service"
+path = "src/lib.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+entity = { path = "../entity" }
+
+[dependencies.sea-orm]
+version = "0.12"
+features = [
+    "debug-print",
+    "runtime-tokio-rustls",
+    "sqlx-sqlite",
+]
+
+[dev-dependencies]
+tokio = { version = "1", features = ["macros", "rt"] }
