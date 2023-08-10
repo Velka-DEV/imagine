@@ -16,3 +16,4 @@ serde = { version = "1", features = ["derive"] }
 dotenvy = "0.15"
 entity = { path = "../entity" }
 migration = { path = "../migration" }
+service = { path = "../service" }

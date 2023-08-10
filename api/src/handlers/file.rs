@@ -1,97 +1,68 @@
-use std::path::PathBuf;
-
 use salvo::prelude::*;
-use salvo::core::fs::NamedFile;
+
 use uuid::Uuid;
-use serde::Serialize;
+use entity::file::Model as File;
 
-use crate::STORAGE_PATH;
+use service::storage::{store_file, get_named_file};
+use service::query::Query;
 
-const FILE_STORAGE_PATH: &str = "files";
+use crate::{AppState};
 
-#[derive(Serialize, Debug)]
-struct File {
-    id: String,
-    size: u64,
+#[handler]
+pub async fn serve_file(req: &mut Request, depot: &mut Depot, res: &mut Response) -> Result<(), StatusError> {
+    let id = req
+    .params()
+    .get("id")
+    .cloned()
+    .ok_or_else(StatusError::bad_request)?;
+
+    let state = depot
+        .obtain::<AppState>()
+        .ok_or_else(StatusError::internal_server_error)?;
+
+    let conn = &state.conn;
+
+
+    let file = Query::get_file(conn, &id)
+        .await
+        .map_err(|_| StatusError::internal_server_error())?
+        .ok_or_else(StatusError::not_found)?;
+
+    let named_file = get_named_file(&file)
+        .await
+        .ok_or_else(StatusError::not_found)?;
+
+    named_file.send(req.headers(), res).await;
+    Ok(())
 }
 
 #[handler]
-pub async fn serve_file(req: &mut Request, res: &mut Response) {
-    let id = req.params().get("id").cloned().unwrap_or_default();
+pub async fn upload_file(req: &mut Request, depot: &mut Depot, res: &mut Response) -> Result<(), StatusError> {
+    let state = depot
+        .obtain::<AppState>()
+        .ok_or_else(StatusError::internal_server_error)?;
 
-    if id.is_empty() {
-        res.render(StatusError::not_found().brief("File not found."));
-        return;
-    }
+    let conn = &state.conn;
 
-    let path = get_file_path(&id);
-
-    if !path.exists() {
-        res.status_code(StatusCode::NOT_FOUND);
-        return;
-    }
-
-    let filename = path.file_name().unwrap_or_default().to_str().unwrap_or_default();
-
-    NamedFile::builder(&path).attached_name(filename).send(req.headers(), res).await;
-}
-
-#[handler]
-pub async fn upload_file(req: &mut Request, res: &mut Response) {
-    let file = req.file("file").await;
-
-    if file.is_none() {
-        res.render(StatusError::bad_request().brief("No file uploaded."));
-        return;
-    }
-
-    let file = file.unwrap();
-
-    let file_extension = file.path().extension().unwrap_or_default();
-
-    let path = get_file_storage_path();
-    if !path.exists() {
-        std::fs::create_dir(&path).unwrap();
-    }
+    let file = req.file("file")
+        .await
+        .ok_or_else(StatusError::bad_request)?;
 
     let file_id = Uuid::new_v4();
-    let mut path = path;
-    path.push(file_id.to_string());
-    path.set_extension(file_extension);
-
-    let file_info = std::fs::copy(&file.path(), path.to_str().unwrap());
-
-    if file_info.is_err() {
-        res.render(StatusError::internal_server_error().brief("Failed to store file."));
-        return;
-    }
+    let file_path = store_file(file, &file_id.to_string())
+        .map_err(|_| StatusError::internal_server_error())?;
 
     let file = File {
         id: file_id.to_string(),
         size: file.size(),
+        extension: file_path.extension().unwrap_or_default().to_str().unwrap_or_default().to_string(),
+        file_name: file_path.file_name().unwrap_or_default().to_str().unwrap_or_default().to_string(),
     };
 
+    file.save(conn).await
+        .map_err(|_| StatusError::internal_server_error())?;
+
     res.render(Json(file));
+    Ok(())
 }
 
-fn get_file_path(id: &str) -> PathBuf {
-    let mut path = std::env::current_dir().unwrap();
-    path
-        .push(STORAGE_PATH);
-    path
-        .push(FILE_STORAGE_PATH);
-    path
-        .push(id);
-
-    path
-}
-
-fn get_file_storage_path() -> PathBuf {
-    let mut path = std::env::current_dir().unwrap();
-    path
-        .push(STORAGE_PATH);
-    path
-        .push(FILE_STORAGE_PATH);
-
-    path
-}

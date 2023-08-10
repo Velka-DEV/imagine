@@ -1383,19 +1383,11 @@ dependencies = [
  "regex",
  "salvo",
  "serde",
+ "service",
  "tokio",
  "tracing",
  "tracing-subscriber",
  "uuid",
-]
-
-[[package]]
-name = "imagine-service"
-version = "0.1.0"
-dependencies = [
- "entity",
- "sea-orm",
- "tokio",
 ]
 
 [[package]]
@@ -1603,6 +1595,7 @@ name = "migration"
 version = "0.1.0"
 dependencies = [
  "async-std",
+ "entity",
  "sea-orm-migration",
 ]
 
@@ -2675,6 +2668,17 @@ dependencies = [
  "itoa",
  "ryu",
  "serde",
+]
+
+[[package]]
+name = "service"
+version = "0.1.0"
+dependencies = [
+ "entity",
+ "salvo",
+ "sea-orm",
+ "tokio",
+ "uuid",
 ]
 
 [[package]]

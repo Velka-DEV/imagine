@@ -1,5 +1,5 @@
 [package]
-name = "imagine-service"
+name = "service"
 version = "0.1.0"
 edition = "2021"
 publish = false
@@ -11,6 +11,8 @@ path = "src/lib.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+salvo = { version = "0.50", features = ["affix"] }
+uuid = { version = "1.4.1", features = ["v4", "fast-rng"] }
 entity = { path = "../entity" }
 
 [dependencies.sea-orm]

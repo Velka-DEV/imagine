@@ -4,9 +4,11 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, Eq, DeriveEntityModel, Extractible, Deserialize, Serialize)]
 #[sea_orm(table_name = "files")]
-pub struct File {
+pub struct Model {
+    #[sea_orm(primary_key)]
     pub id: String,
-    pub filename: String,
+    pub file_name: String,
+    pub extension: String,
     pub size: u64,
 }
 
