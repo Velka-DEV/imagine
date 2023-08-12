@@ -835,6 +835,7 @@ dependencies = [
  "salvo",
  "sea-orm",
  "serde",
+ "uuid",
 ]
 
 [[package]]

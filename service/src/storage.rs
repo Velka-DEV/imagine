@@ -2,13 +2,13 @@ use std::{path::PathBuf, io::Error, ffi::OsStr};
 use salvo::fs::NamedFileBuilder;
 use salvo::http::form::FilePart;
 use salvo::core::fs::NamedFile;
-use entity::file::Model as File;
+use ::entity::file::Model as File;
 
 const STORAGE_PATH: &str = "storage";
 const FILE_STORAGE_PATH: &str = "files";
 
 pub async fn get_named_file(file: &File) -> Option<NamedFileBuilder> {
-    let path = get_file_path(&file.id, &file.extension);
+    let path = get_file_path(&file.id.to_string(), &file.extension);
 
     if !path.exists() {
         return None;

@@ -2,10 +2,7 @@ use std::env;
 use salvo::prelude::*;
 use migration::{Migrator, MigratorTrait};
 use std::path::Path;
-use service::{
-    sea_orm::{Database, DatabaseConnection},
-    Mutation, Query,
-};
+use service::sea_orm::{Database, DatabaseConnection};
 
 mod router;
 mod handlers;

@@ -1,6 +1,5 @@
 use salvo::prelude::*;
-use salvo::affix;
-use crate::{handlers::file, AppState};
+use crate::handlers::file;
 use salvo::routing::filters::PathFilter;
 use regex::Regex;
 

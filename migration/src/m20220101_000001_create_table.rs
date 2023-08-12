@@ -10,17 +10,17 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(File::Table)
+                    .table(Files::Table)
                     .if_not_exists()
                     .col(
-                        ColumnDef::new(File::Id)
+                        ColumnDef::new(Files::Id)
                             .uuid()
                             .not_null()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(File::FileName).string().not_null())
-                    .col(ColumnDef::new(File::Extension).string().not_null())
-                    .col(ColumnDef::new(File::Size).big_integer().default(0))
+                    .col(ColumnDef::new(Files::FileName).string().not_null())
+                    .col(ColumnDef::new(Files::Extension).string().not_null())
+                    .col(ColumnDef::new(Files::Size).big_integer().default(0))
                     .to_owned(),
             )
             .await
@@ -28,13 +28,13 @@ impl MigrationTrait for Migration {
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager
-            .drop_table(Table::drop().table(File::Table).to_owned())
+            .drop_table(Table::drop().table(Files::Table).to_owned())
             .await
     }
 }
 
 #[derive(DeriveIden)]
-enum File {
+enum Files {
     Table,
     Id,
     FileName,

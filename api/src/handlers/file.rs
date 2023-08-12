@@ -1,10 +1,11 @@
 use salvo::prelude::*;
-
 use uuid::Uuid;
-use entity::file::Model as File;
 
-use service::storage::{store_file, get_named_file};
-use service::query::Query;
+use ::entity::file::Model as File;
+
+use ::service::storage::{store_file, get_named_file};
+use ::service::query::Query;
+use ::service::mutation::Mutation;
 
 use crate::{AppState};
 
@@ -50,17 +51,18 @@ pub async fn upload_file(req: &mut Request, depot: &mut Depot, res: &mut Respons
 
     let file_id = Uuid::new_v4();
     let file_path = store_file(file, &file_id.to_string())
-        .map_err(|_| StatusError::internal_server_error())?;
+        .map_err(|err| StatusError::internal_server_error().brief(err.to_string()))?;
 
     let file = File {
-        id: file_id.to_string(),
+        id: Uuid::new_v4(),
         size: file.size(),
         extension: file_path.extension().unwrap_or_default().to_str().unwrap_or_default().to_string(),
         file_name: file_path.file_name().unwrap_or_default().to_str().unwrap_or_default().to_string(),
     };
 
-    file.save(conn).await
-        .map_err(|_| StatusError::internal_server_error())?;
+    Mutation::create_file(conn, file.clone())
+        .await
+        .map_err(|err| StatusError::internal_server_error().brief(err.to_string()))?;
 
     res.render(Json(file));
     Ok(())

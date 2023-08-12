@@ -12,6 +12,7 @@ path = "src/lib.rs"
 [dependencies]
 serde = { version = "1", features = ["derive"] }
 salvo = { version = "0.50" }
+uuid = { version = "1.4.1", features = ["v4", "fast-rng"] }
 
 [dependencies.sea-orm]
 version = "0.12"
