@@ -7,13 +7,6 @@ Imagine is an ambitious media CDN designed to offer robust storage capabilities 
 
 > ⚠️ **Disclaimer**: Imagine is currently in the early stages of development and is **not** recommended for production use.
 
-## Endpoints
-
-- Files: 
-  - [GET] List: `/file` (May change in neer future to `/files`)
-  - [POST] Upload: `/file`
-  - [GET] Serve file: `/file/{id}`
-
 ## Features
 
 - **File Storage**: Store your media safely and retrieve them with ease.
@@ -22,6 +15,13 @@ Imagine is an ambitious media CDN designed to offer robust storage capabilities 
 - ⚠️ TBA ⚠️ **File encryption**: Store your files encrypted for enhanced security and privacy.
 - ⚠️ TBA ⚠️ **Dashboard**: Manage everything from a web dashboard.
 - **Built with Rust**: Leveraging the power and safety of Rust for efficient and concurrent media handling.
+
+## Endpoints
+
+- Files: 
+  - [GET] List: `/file` (May change in neer future to `/files`)
+  - [POST] Upload: `/file`
+  - [GET] Serve file: `/file/{id}`
 
 ## Tech Stack
 
