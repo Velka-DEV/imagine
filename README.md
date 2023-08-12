@@ -41,7 +41,7 @@ Imagine is an ambitious media CDN designed to offer robust storage capabilities 
 
 1. Fork the repository.
 2. Clone your fork (`git clone https://github.com/YOUR_USERNAME/Imagine.git`).
-3. Create a new feature branch (`git checkout -b feature/my-awesome-feature`).
+3. Create a new feature branch (`git checkout -b feat/my-awesome-feature`).
 4. Commit your changes.
 5. Push to your branch (`git push origin feat/my-awesome-feature`).
 6. Open a pull request.
