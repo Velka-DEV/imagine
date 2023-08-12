@@ -21,6 +21,7 @@ pub fn create_router() -> Router {
 
 fn create_file_router() -> Router {
     Router::with_path("file")
+        .get(file::list_files)
         .post(file::upload_file)
         .push(
             Router::with_path("<id:guid>")

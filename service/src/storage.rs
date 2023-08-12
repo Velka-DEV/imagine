@@ -14,9 +14,7 @@ pub async fn get_named_file(file: &File) -> Option<NamedFileBuilder> {
         return None;
     }
 
-    let file_name = path.file_name().unwrap_or_default().to_str().unwrap_or_default();
-
-    Some(NamedFile::builder(&path).attached_name(file_name))
+    Some(NamedFile::builder(&path).attached_name(&file.file_name))
 }
 
 pub fn store_file(file: &FilePart, id: &str) -> Result<PathBuf, Error> {
@@ -57,6 +55,8 @@ fn get_file_path(id: &str, extension: &str) -> PathBuf {
     if !extension.is_empty() {
         path.set_extension(extension);
     }
+
+    print!("{:?}", path);
 
     path
 }
