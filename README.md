@@ -19,7 +19,7 @@ Imagine is an ambitious media CDN designed to offer robust storage capabilities 
 ## Endpoints
 
 - Files: 
-  - [GET] List: `/file` (May change in neer future to `/files`)
+  - [GET] List: `/file` (May change in near future to `/files`)
   - [POST] Upload: `/file`
   - [GET] Serve file: `/file/{id}`
 
