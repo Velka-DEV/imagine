@@ -31,8 +31,8 @@ Imagine is an ambitious media CDN designed to offer robust storage capabilities 
 
 ## Getting Started
 
-1. Copy `.env.example` to `.env`
-2. Provide `HOST`, `PORT` and the `DATABASE_URL` env variables
+1. Create a `.env` file in the root directory
+2. Provide `HOST`, `PORT` and the `DATABASE_URL` env variables (see `.env.example`)
 3. Run and enjoy
 
 ## Contribution
