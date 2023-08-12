@@ -7,7 +7,7 @@ use ::service::storage::{store_file, get_named_file};
 use ::service::query::Query;
 use ::service::mutation::Mutation;
 
-use crate::{AppState};
+use crate::AppState;
 
 #[handler]
 pub async fn serve_file(req: &mut Request, depot: &mut Depot, res: &mut Response) -> Result<(), StatusError> {
