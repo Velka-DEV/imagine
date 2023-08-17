@@ -1,9 +1,8 @@
-use salvo::prelude::Extractible;
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-#[derive(Clone, Debug, PartialEq, Eq, DeriveEntityModel, Extractible, Deserialize, Serialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, DeriveEntityModel)]
 #[sea_orm(table_name = "image_variant")]
 pub struct Model {
     #[sea_orm(primary_key, auto_increment = false)]

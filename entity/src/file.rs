@@ -16,12 +16,4 @@ pub struct Model {
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {}
 
-impl ActiveModelBehavior for ActiveModel {
-    // Automatic uuid generation
-    // fn new() -> Self {
-    //     Self {
-    //         id: Set(Uuid::new_v4()),
-    //         ..ActiveModelTrait::default()
-    //     }
-    // }
-}
+impl ActiveModelBehavior for ActiveModel { }

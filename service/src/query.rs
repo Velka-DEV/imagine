@@ -44,6 +44,6 @@ impl Query {
         db: &DbConn,
         name: &str,
     )  -> Result<Option<ImageVariantModel>, DbErr> {
-        ImageVariantEntity::filter(::entity::image_variant::Column::Name.eq(name)).one(db).await
+        ImageVariantEntity::find().filter(::entity::image_variant::Column::Name.eq(name)).one(db).await
     }
 }
